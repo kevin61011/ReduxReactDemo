@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
-import { modifyMyFavorite, changeGame } from '../actions'
+import { deletedFromMyFavorite, addedToMyFavorite, changeGame } from '../actions'
 import MyFavorite from '../components/MyFavorite'
 
 const mapStateToProps = (state) => ({ myFavorite: state.myFavorite });
 
 const mapDispatchToProps = (dispatch) => ({
-    onClickModify: (value) => dispatch(modifyMyFavorite(value)),
+    onClickAdd: (value) => dispatch(addedToMyFavorite(value)),
+    onClickDelete: (value) => dispatch(deletedFromMyFavorite(value)),
     onClickChangeGame: (value) => dispatch(changeGame(value))
 })
 

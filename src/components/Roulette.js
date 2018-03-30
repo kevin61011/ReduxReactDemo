@@ -26,9 +26,9 @@ export default class SlotMachine extends Component {
     }
 
     spin() {
-        
 
-        alert("you are going to spend 300 to play roulette machine");
+
+        alert(`you are going to spend $${this.props.bet} to play roulette machine`);
 
         let choosenOne = Math.floor(Math.random() * (this.rouletteData.length));
 
@@ -37,18 +37,22 @@ export default class SlotMachine extends Component {
         });
 
         let middle = Math.floor(this.rouletteData.length / 2);
-        
+
         alert(`the numbers is "${choosenOne}"`);
 
+        let moneyWon = this.props.bet;
         if (middle == choosenOne && this.state.bet == choosenOne) {
-            this.props.winMoney(2000);
-            alert("you won $2000")
+            moneyWon *= 10;
+            this.props.winMoney(moneyWon);
+            alert(`you won $${moneyWon}`);
         } else if (this.state.bet == choosenOne) {
-            this.props.winMoney(1000);
-            alert("you won $1000")
+            moneyWon *= 5;
+            this.props.winMoney(moneyWon);
+            alert(`you won $${moneyWon}`);
         } else if (this.rouletteData[choosenOne] == this.rouletteData[this.state.bet]) {
-            this.props.winMoney(500);
-            alert("you won $500")
+            moneyWon *= 2;
+            this.props.winMoney(moneyWon);
+            alert(`you won $${moneyWon}`);
         } else {
             alert("too bad, you lose");
         }
@@ -63,7 +67,7 @@ export default class SlotMachine extends Component {
     }
 
     setBet(index) {
-        if(this.state.bet == index){
+        if (this.state.bet == index) {
             this.setState({
                 bet: undefined
             })
@@ -96,12 +100,12 @@ export default class SlotMachine extends Component {
                     {board}
                 </div>
                 <SpendMoneyBtn
+                    totalMoney={this.props.totalMoney}
                     onClick={this.props.onClick}
                     condition={() => this.condition()}
+                    placeBet={this.props.placeBet}
                     additionalAction={() => this.spin()}
-                    value={300}>
-                    spend 300 to play
-                </SpendMoneyBtn>
+                    oldBet={this.props.bet} />
             </div>
         )
     }

@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 export default class SpendMoneyBtn extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            bet: this.props.oldBet
+        }
+    }
 
     handleBtnClick() {
         let condition = true;
@@ -9,25 +15,42 @@ export default class SpendMoneyBtn extends Component {
             condition = this.props.condition();
         }
         if (condition) {
-            this.props.onClick(this.props.value);
+            this.props.onClick(this.state.bet);
             this.props.additionalAction();
         }
     }
 
+    changeBet(e) {
+        let value = e.currentTarget.value;
+
+        if(this.props.totalMoney < value){
+            alert(`you only have ${this.props.totalMoney} dollar, placing ${value} is too much`);
+            return;
+        }
+
+        this.setState({
+            bet: value
+        })
+
+        this.props.placeBet(parseInt(value));
+    }
+
+    clearBet() {
+        this.setState({
+            bet: ""
+        })
+    }
+
     render() {
         return (
-            <button
-                className="btn btn-spend-money"
-                value={this.props.value}
-                onClick={() => this.handleBtnClick()}>
-                {this.props.children}
-            </button>
+            <div>
+                <input type="number" onClick={() => this.clearBet()} onChange={(e) => { this.changeBet(e) }} value={this.state.bet}/>
+                <button
+                    className="btn btn-spend-money"
+                    onClick={() => this.handleBtnClick()}>
+                    Place & Bet
+                </button>
+            </div>
         )
     }
-}
-
-SpendMoneyBtn.propTypes = {
-    value: PropTypes.number.isRequired,
-    children: PropTypes.node.isRequired,
-    onClick: PropTypes.func.isRequired
 }

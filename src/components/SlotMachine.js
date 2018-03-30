@@ -12,7 +12,7 @@ export default class SlotMachine extends Component {
     }
 
     pull() {
-        alert("you are going to spend 300 to play slot machine");
+        alert(`you are going to spend ${this.props.bet} to play slot machine`);
 
         let slot1 = Math.floor(Math.random() * 4),
             slot2 = Math.floor(Math.random() * 4),
@@ -26,12 +26,15 @@ export default class SlotMachine extends Component {
 
         alert(`your numbers are "${slot1}", "${slot2}", and "${slot3}"`);
 
-        if (slot1 == slot2 && slot1 == slot3){
-            this.props.winMoney(1000);
-            alert("you won $1000")
-        } else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3){
-            this.props.winMoney(300);
-            alert("you won $300");
+        let moneyWon = this.props.bet;
+        if (slot1 == slot2 && slot1 == slot3) {
+            moneyWon *= 5;
+            this.props.winMoney(moneyWon);
+            alert(`you won $${moneyWon}`);
+        } else if (slot1 == slot2 || slot1 == slot3 || slot2 == slot3) {
+            moneyWon *= 2;
+            this.props.winMoney(moneyWon);
+            alert(`you won $${moneyWon}`);
         } else {
             alert("too bad, you lose");
         }
@@ -46,7 +49,12 @@ export default class SlotMachine extends Component {
                     <span className="slot">{this.state.slot2}</span>
                     <span className="slot">{this.state.slot3}</span>
                 </div>
-                <SpendMoneyBtn onClick={this.props.onClick} additionalAction={() => this.pull()} value={300}>spend 300 to play</SpendMoneyBtn>
+                <SpendMoneyBtn
+                    totalMoney={this.props.totalMoney}
+                    onClick={this.props.onClick}
+                    placeBet={this.props.placeBet}
+                    additionalAction={() => this.pull()}
+                    oldBet={this.props.bet}/>
             </div>
         )
     }

@@ -1,15 +1,16 @@
 import { connect } from 'react-redux'
-import { addMoney, spendMoney } from '../actions'
+import { addMoney, spendMoney, placeBet } from '../actions'
 import Roulette from '../components/Roulette'
 
-// const mapStateToProps = (state) => ({ totalMoney: state.found });
+const mapStateToProps = (state) => ({ bet: state.bet });
 
 const mapDispatchToProps = (dispatch) => ({
     onClick: (value) => dispatch(spendMoney(value)),
     winMoney: (value) => dispatch(addMoney(value)),
+    placeBet: (value) => dispatch(placeBet(value))
 })
 
 export default connect(
-    undefined,
+    mapStateToProps,
     mapDispatchToProps
 )(Roulette)

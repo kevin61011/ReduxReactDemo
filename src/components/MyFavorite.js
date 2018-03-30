@@ -28,7 +28,7 @@ export default class MyFavorite extends Component {
         for (let g in gameTypes) {
             let exist = this.props.myFavorite.indexOf(g) > -1;
             editBtn.push(
-                <button key={`edit-${g}`} className="edit-btn" onClick={() => this.props.onClickModify(g)}>{(exist ? "V " : "X ") + g}</button>
+                <button key={`edit-${g}`} className="edit-btn" onClick={() => (exist?this.props.onClickDelete(g):this.props.onClickAdd(g) )}>{(exist ? "V " : "X ") + g}</button>
             )
         }
 
